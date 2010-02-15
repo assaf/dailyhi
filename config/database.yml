@@ -1,2 +1,11 @@
-adapter: sqlite3
-database: daily.sqlite3.db
+development:
+  adapter: sqlite3
+  database: daily.sqlite3.db
+production:
+  adapter: mysql
+  database: dailyhi
+  username: dailyhi
+  password: dailyhi
+  timeout: 5000
+  encoding: utf8
+  reconnect: true

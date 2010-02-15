@@ -8,8 +8,11 @@ Mail.defaults do
   delivery_method :sendmail
 end
 
+env = ENV["RACK_ENV"] || "development"
+HOSTNAME = env == "development" ? "localhost:7887" : "daily.labnotes.org"
 
-ActiveRecord::Base.establish_connection YAML.load_file("#{File.dirname(__FILE__)}/config/database.yml")
+config = YAML.load_file("#{File.dirname(__FILE__)}/config/database.yml")
+ActiveRecord::Base.establish_connection config[env]
 conn = ActiveRecord::Base.connection
 unless conn.table_exists?("subscriptions")
   conn.create_table "subscriptions" do |t|
@@ -50,7 +53,7 @@ class Subscription < ActiveRecord::Base
 
   after_create do |record|
     mail = Mail::Message.new(from: "daily@labnotes.org", to: record.email, subject: "Please verify your email address")
-    url = "http://daily.labnotes.org/verify/#{record.code}"
+    url = "http://#{HOSTNAME}/verify/#{record.code}"
     mail.text_part = Mail::Part.new(body: <<-BODY)
 Before you can receive emails, we need to verify your email address.
 
@@ -81,7 +84,7 @@ Daily bliss, after you click this link:
       subject = "Good morning, today is #{day}!"
       find_each conditions: { verified: true } do |subscription|
         mail = Mail::Message.new(from: "daily@labnotes.org", to: subscription.email, subject: subject)
-        url = "http://daily.labnotes.org/unsubscribe/#{subscription.code}"
+        url = "http://#{HOSTNAME}/unsubscribe/#{subscription.code}"
       mail.html_part = Mail::Part.new(content_type: "text/html", body: <<-HTML)
 <h2>A lovely #{day} to you!</h2>
 #{image}

@@ -3,7 +3,7 @@ require "subscription"
 
 
 class DailyHi < Sinatra::Default
-  set :public, "#{__FILE__}/../public"
+  set :public, "#{File.dirname(__FILE__)}/public"
 
   get '/' do
     erb :index
