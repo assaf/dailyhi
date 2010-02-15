@@ -1,0 +1,7 @@
+source "http://gemcutter.org"
+gem "activerecord", "2.3.5"
+gem "flickr_fu",    "0.3.0"
+gem "mail",         "2.1.2"
+gem "sinatra",      "0.9.4"
+gem "sqlite3-ruby", "1.2.5"
+gem "unicorn",      "0.96.1"

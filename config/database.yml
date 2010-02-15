@@ -1,0 +1,2 @@
+adapter: sqlite3
+database: daily.sqlite3.db
