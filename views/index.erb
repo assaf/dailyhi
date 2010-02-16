@@ -18,19 +18,30 @@
 </ol>
 <script>
 $(function() {
+  $(".days").show();
+  var elements = $(".days li"), width = 0, left = 0;
+  for (var i = elements.length; i; width = width + $(elements[--i]).width()) ;
+  var spacing = (560 - width) / 6;
+  elements.each(function(i,e) {
+    $(e).css({ opacity: 0.5, left: left });
+    left = left + $(e).width() + spacing;
+  });
   var shuffle = function() {
     var positions = [0,1,2,3,4,5,6];
-    for(var j, x, i = positions.length; i; j = parseInt(Math.random() * i), x = positions[--i], positions[i] = positions[j], positions[j] = x);
-    $(".days li").each(function(i, e) {
-      $(this).animate({ left: positions[i] * 80}, 3000)
+    for(var j, x, i = positions.length; i; j = parseInt(Math.random() * i), x = positions[--i], positions[i] = positions[j], positions[j] = x) ;
+    var elements = $(".days li");
+    var left = 0;
+    $.each(positions, function(i, e) {
+      var item = $(elements[e]);
+      item.animate({ left: left }, 3000);
+      left = left + item.width() + spacing;
     });
   }
-  $(".days").show().find("li").each(function(i, e) { $(this).css({ opacity: 0.6, left: i * 80 }) });
   shuffle();
   window.setInterval(shuffle, 7000);
 })
 </script>
-<form action="/subscribe" method="post">
+<form action="/subscribe" method="post" class="subscribe">
   <input name="email" type="email" placeholder="Your email">
   <input type="submit" value="Subscribe me" class="button">
 </form>
