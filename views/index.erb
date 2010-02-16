@@ -1,15 +1,39 @@
-<section class="what">
+<div class="what">
   <p>I work from home and I love what I do. When you're not dreading Monday nor
-  waiting for Friday, days start blurring into each other.</p>
+  waiting for Friday to end, days start blurring into each other.</p>
   <p><q>Is today Tuesday?</q></p>
   <p><q>No, wait, wasn't Tuesday just yesterday?</q></p>
   <p><q>Tomorrow, you say?</q></p>
-  <p>So I created this little service to do nothing more complicated than send me
-  an email every morning, to remind me what day it is.</p>
-</section>
-<section class="subscribe">
+  <p>So I created this little service to email me "Hi", today's day and a
+  random picture every morning.</p>
+</div>
+<ol class="days">
+  <li>Sunday</li>
+  <li>Monday</li>
+  <li>Tuesday</li>
+  <li>Wednesday</li>
+  <li>Thursday</li>
+  <li>Friday</li>
+  <li>Saturday</li>
+</ol>
+<script>
+$(function() {
+  var shuffle = function() {
+    var positions = [0,1,2,3,4,5,6];
+    for(var j, x, i = positions.length; i; j = parseInt(Math.random() * i), x = positions[--i], positions[i] = positions[j], positions[j] = x);
+    $(".days li").each(function(i, e) {
+      $(this).animate({ left: positions[i] * 80}, 3000)
+    });
+  }
+  $(".days").show().find("li").each(function(i, e) { $(this).css({ opacity: 0.6, left: i * 80 }) });
+  shuffle();
+  window.setInterval(shuffle, 7000);
+})
+</script>
+
+<div class="subscribe">
   <form action="/subscribe" method="post">
     <input name="email" type="email" placeholder="Your email">
     <input type="submit" value="Subscribe me" class="button">
   </form>
-</section>
+</div>
