@@ -33,6 +33,8 @@ class Subscription < ActiveRecord::Base
   validates_presence_of :email
   validates_uniqueness_of :email, :code
 
+  named_scope :verified, lambda { { conditions: { verified: true } } }
+
   before_validation do |record|
     record.email = Mail::Address.new(record.email).to_s.downcase
   end
