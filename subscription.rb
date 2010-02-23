@@ -80,7 +80,7 @@ Daily bliss, after you click this link:
       if photo = photo(day)
         large = photo.photo_size(:large)
         image = <<-HTML
-<div><a href="#{large.url}"><img src="#{large.source}" width="#{large.width} height="#{large.height}"></a></div>
+<div><a href="#{large.url}"><img src="#{large.source}" width="640px"></a></div>
 <h4>Photo by <a href="#{photo.photopage_url}">#{CGI.escapeHTML photo.owner_name}</a></h4>
         HTML
       end

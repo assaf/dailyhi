@@ -1,4 +1,4 @@
-source "http://gemcutter.org"
+source "http://rubygems.org/"
 gem "activerecord", "2.3.5"
 gem "flickr_fu",    "0.3.0"
 gem "mail",         "2.1.2"
