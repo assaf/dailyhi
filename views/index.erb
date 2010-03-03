@@ -16,7 +16,7 @@
   <li>Friday</li>
   <li>Saturday</li>
 </ol>
-<script>
+<script>//<![CDATA[
 $(function() {
   $(".days").show();
   var elements = $(".days li"), width = 0, left = 0;
@@ -40,9 +40,14 @@ $(function() {
   shuffle();
   window.setInterval(shuffle, 7000);
 })
-</script>
+//]]></script>
 <form action="/subscribe" method="post" class="subscribe">
   <input name="email" type="email" placeholder="Your email">
   <input type="submit" value="Subscribe me" class="button">
+  <select name="timezone"><%= ZONES.map { |offset, *names| "<option value='#{offset}'>#{names.join(" - ")}</option>" }.join %></select>
   <p class="hint">One email, daily, with a random picture from the Flickr pool.</p>
 </form>
+<script>//<![CDATA[
+  var offset = new Date().getTimezoneOffset() / 60;
+  $("select[name=timezone]").val(-offset);
+//]]></script>

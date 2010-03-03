@@ -1,0 +1,11 @@
+<p>Get to changing your timezone:</p>
+<form action="/timezone/<%= @code %>" method="post">
+  <select name="timezone"><%= ZONES.map { |offset, *names| "<option value='#{offset}' #{'selected' if offset == @timezone}>#{names.join(" - ")}</option>" }.join %></select>
+  <input type="submit" value="Change">
+</form>
+<% if @timezone.nil? %>
+  <script>//<![CDATA[
+    var offset = new Date().getTimezoneOffset() / 60;
+    $("select[name=timezone]").val(-offset);
+  //]]></script>
+<% end %>
