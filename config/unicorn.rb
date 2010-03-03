@@ -2,6 +2,7 @@ listen 7887
 worker_processes 2
 preload_app false
 timeout 30
+pid "unicorn.pid"
 
 before_fork do |server, worker|
   old_pid = "#{server.config[:pid]}.oldbin"
