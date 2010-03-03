@@ -63,17 +63,17 @@ class DailyHi < Sinatra::Default
   end
 
   get "/timezone/:code" do |code|
-    subscription = Subscription.find_by_code(code)
-    if subscription
+    if subscription = Subscription.find_by_code(code)
       @code = subscription.code
-      @timezone = subscription.timezone
+      erb :timezone
+    else
+      not_found
     end
-    erb :timezone
   end
 
   post "/timezone/:code" do |code|
     Subscription.update_all({ timezone: params[:timezone] }, { code: code })
-    redirect "/timezone/#{code}"
+    erb :timezoned
   end
 
   not_found do

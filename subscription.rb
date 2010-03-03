@@ -69,7 +69,7 @@ Daily bliss, after you click this link:
   end
 
   class << self
-    def photo(day)
+    def find_photo
       flickr = Flickr.new("#{File.dirname(__FILE__)}/config/flickr.yml")
       photos = flickr.photos.search(privacy_filter: 1, safe: 1, content_type: 1, license: "4,5,6",
                                     min_upload_date: (Date.today - 7).to_time.to_i, sort: "interestingness-desc")
@@ -78,28 +78,38 @@ Daily bliss, after you click this link:
         large && (800..1400).include?(large.width.to_i) && (600..1400).include?(large.height.to_i) }
     end
 
-    def daily(day = Time.now.strftime("%A"))
-      if photo = photo(day)
+    def image_html
+      return @image_html if @image_html
+      if photo = find_photo
         large = photo.photo_size(:large)
-        image = <<-HTML
+        @image_html = <<-HTML
 <div><a href="#{large.url}"><img src="#{large.source}" width="480px"></a></div>
 <h4>Photo by <a href="#{photo.photopage_url}">#{CGI.escapeHTML photo.owner_name}</a></h4>
         HTML
       end
+    end
+
+    def deliver(utc = Time.now.utc)
+      hour = utc.hour - 6 # 6 AM
+      timezone = hour < 12 ? -hour : 24 - hour
+      tz = TZInfo::Timezone.all_data_zones.find { |tz| tz.current_period.utc_offset.to_i == timezone * 60 * 60 }
+      return unless tz
+      day = tz.strftime("%A", utc)
       subject = "Good morning, today is #{day}!"
-      find_each conditions: { verified: true } do |subscription|
+      find_each conditions: { verified: true, timezone: timezone } do |subscription|
         mail = Mail::Message.new(from: "dailyhi@labnotes.org", to: subscription.email, subject: subject)
         url = "http://#{HOSTNAME}/unsubscribe/#{subscription.code}"
-      mail.html_part = Mail::Part.new(content_type: "text/html", body: <<-HTML)
+        mail.html_part = Mail::Part.new(content_type: "text/html", body: <<-HTML)
 <h2>A lovely #{day} to you!</h2>
 <p><b>Important</b>: Not happy with your timezone? <a href="http://#{HOSTNAME}/timezone/#{subscription.code}">Go here to change it</a>.</p>
-#{image}
+#{image_html}
 <hr>
 <p>To unsubscribe: <a href="#{url}">#{url}</a></p>
-      HTML
+        HTML
         mail.deliver
       end
     end
+
   end
 end
 
