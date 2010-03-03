@@ -73,6 +73,10 @@ class DailyHi < Sinatra::Default
 
   post "/timezone/:code" do |code|
     Subscription.update_all({ timezone: params[:timezone] }, { code: code })
+    redirect "/timezoned"
+  end
+
+  get "/timezoned" do
     erb :timezoned
   end
 
