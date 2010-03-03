@@ -1,0 +1,57 @@
+--- 
+hash: 809aef1527b793065d3f562697d132f5bb6003ee
+sources: 
+- Rubygems: 
+    uri: http://rubygems.org/
+specs: 
+- xml-magic: 
+    version: 0.1.1
+- rack: 
+    version: 1.1.0
+- mime-types: 
+    version: "1.16"
+- activesupport: 
+    version: 2.3.5
+- tzinfo: 
+    version: 0.3.16
+- unicorn: 
+    version: 0.96.1
+- sqlite3-ruby: 
+    version: 1.2.5
+- sinatra: 
+    version: 0.9.4
+- mail: 
+    version: 2.1.2
+- flickr_fu: 
+    version: 0.3.0
+- activerecord: 
+    version: 2.3.5
+dependencies: 
+  activerecord: 
+    version: = 2.3.5
+    group: 
+    - :default
+  flickr_fu: 
+    version: = 0.3.0
+    group: 
+    - :default
+  mail: 
+    version: = 2.1.2
+    group: 
+    - :default
+  sinatra: 
+    version: = 0.9.4
+    group: 
+    - :default
+  sqlite3-ruby: 
+    version: = 1.2.5
+    group: 
+    - :default
+  unicorn: 
+    version: = 0.96.1
+    group: 
+    - :default
+  tzinfo: 
+    version: = 0.3.16
+    group: 
+    - :default
