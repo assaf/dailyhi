@@ -18,7 +18,7 @@
   <% if photo %>
     <tr>
       <td colspan="2" style="padding:24px 0">
-        <a href="<%= medium.url %>"><img src="<%= medium.source %>" width="480px"></a>
+        <div><a href="<%= medium.url %>"><img src="<%= medium.source %>" width="480px"></a></div>
         <p>Photo by <a href="<%= photo.photopage_url %>"><%= CGI.escapeHTML photo.owner_name %></a></p>
       </td>
     </tr>
@@ -27,7 +27,7 @@
     <tr>
       <td colspan="2" style="padding:12px 0">
         Did you know that &hellip;<br>
-        <blockquote style="font-style:italic"><%= CGI.escapeHTML fact %></blockquote>
+        <blockquote style="font-style:italic"><a href="<%= CGI.escapeHTML fact.last %>"><%= CGI.escapeHTML fact.first %></a></blockquote>
         Well, now you do!
       </td>
     </tr>

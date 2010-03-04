@@ -102,7 +102,8 @@ Daily bliss, after you click this link:
     def fun_fact
       open("http://www.factropolis.com/rss.xml") do |response|
         result = RSS::Parser.parse(response, false)
-        return result.items.first.title
+        item = result.items.first
+        return [item.title, item.link] if item
       end
     rescue
     end
