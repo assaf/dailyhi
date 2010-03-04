@@ -4,6 +4,8 @@ require "mail"
 require "resolv"
 require "flickr_fu"
 require "tzinfo"
+require "open-uri"
+require "rss"
 
 Mail.defaults do
   delivery_method :sendmail
@@ -77,12 +79,13 @@ Daily bliss, after you click this link:
       return unless tz
       time = tz.utc_to_local(utc)
       photo = find_photo
+      fact = fun_fact
 
       subject = "Good morning, today is #{time.strftime("%A")}!"
-      find_each conditions: { verified: true } do |subscription|
-      #find_each conditions: { verified: true, timezone: timezone } do |subscription|
+      #find_each conditions: { verified: true } do |subscription| # TESTING ONLY!
+      find_each conditions: { verified: true, timezone: timezone } do |subscription|
         mail = Mail::Message.new(from: "The Daily Hi <dailyhi@labnotes.org>", to: subscription.email, subject: subject)
-        mail.html_part = Mail::Part.new(content_type: "text/html", body: email(subscription, time, photo))
+        mail.html_part = Mail::Part.new(content_type: "text/html", body: email(subscription, time, photo, fact))
         mail.deliver
       end
     end
@@ -96,7 +99,15 @@ Daily bliss, after you click this link:
         large && (800..1400).include?(large.width.to_i) && (600..1400).include?(large.height.to_i) }
     end
 
-    def email(subscription, time, photo)
+    def fun_fact
+      open("http://www.factropolis.com/rss.xml") do |response|
+        result = RSS::Parser.parse(response, false)
+        return result.items.first.title
+      end
+    rescue
+    end
+
+    def email(subscription, time, photo, fact)
       medium = photo.photo_size(:large) if photo
       erb = ERB.new(File.read(File.dirname(__FILE__) + "/views/email.erb"))
       erb.result binding

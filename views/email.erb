@@ -1,0 +1,42 @@
+<table cellspacing="4" cellpadding="0" border="0">
+  <tr>
+    <td style="width:6em;vertical-align:top">
+      <table cellspacing="0" cellpadding="0" border="0" style="width:4em;font-family:sans-serif;font-weight:bold;border:1px solid #aaa;font-size:10pt">
+        <tr>
+          <td style="color:#fff;background:#c00;padding:0.1em;text-align:center;border-bottom:2px solid #ccc"><%= time.strftime("%b") %></td>
+        </tr>
+        <tr>
+          <td style="color:#444;background:#fff;font-size:2.5em;text-align:center"><%= time.day %></td>
+        </tr>
+      </table>
+    </td>
+    <td style="vertical-align:top">
+      <h1>A lovely <%= time.strftime("%A") %> to you!</h1>
+      <p><b>Important</b>: Not happy with your timezone? <a href="http://<%= HOSTNAME %>/timezone/<%= subscription.code %>">Go here to change it</a>.</p>
+    </td>
+  </tr>
+  <% if photo %>
+    <tr>
+      <td colspan="2" style="padding:24px 0">
+        <a href="<%= medium.url %>"><img src="<%= medium.source %>" width="480px"></a>
+        <p>Photo by <a href="<%= photo.photopage_url %>"><%= CGI.escapeHTML photo.owner_name %></a></p>
+      </td>
+    </tr>
+  <% end %>
+  <% if fact %>
+    <tr>
+      <td colspan="2" style="padding:12px 0">
+        Did you know that &hellip;<br>
+        <blockquote style="font-style:italic"><%= CGI.escapeHTML fact %></blockquote>
+        Well, now you do!
+      </td>
+    </tr>
+  <% end %>
+  <tr>
+    <td colspan="2" style="padding:24px 0">
+      <hr>
+      <p><b><a href="http://<%= HOSTNAME %>">The Daily Hi</a></b> loves you.</p>
+      <p>If you don't feel the same way, you can always <a href="http://<%= HOSTNAME %>/unsubscribe/<%= subscription.code %>">unsubscribe</a>. Sniff.</p>
+    </td>
+  </tr>
+</table>
