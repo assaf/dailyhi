@@ -93,7 +93,7 @@ Daily bliss, after you click this link:
     def find_photo
       flickr = Flickr.new("#{File.dirname(__FILE__)}/config/flickr.yml")
       photos = flickr.photos.search(privacy_filter: 1, safe: 1, content_type: 1, license: "4,5,6",
-                                    min_upload_date: (Date.today - 7).to_time.to_i, sort: "interestingness-desc")
+                                    min_upload_date: (Date.today - 1).to_time.to_i, sort: "interestingness-desc")
       photo = photos.find { |photo|
         large = photo.photo_size(:large)
         large && (800..1400).include?(large.width.to_i) && (600..1400).include?(large.height.to_i) }
