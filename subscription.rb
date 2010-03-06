@@ -71,6 +71,11 @@ Daily bliss, after you click this link:
     mail.deliver
   end
 
+  def now
+    utc = Time.now.utc
+    now = Time.utc(utc.year, utc.month, utc.day, 6 - timezone)
+  end
+
   class << self
     def deliver(utc = Time.now.utc)
       hour = utc.hour - 6 # 6 AM
@@ -82,7 +87,6 @@ Daily bliss, after you click this link:
       fact = fun_fact
 
       subject = "Good morning, today is #{time.strftime("%A")}!"
-      #find_each conditions: { verified: true } do |subscription| # TESTING ONLY!
       find_each conditions: { verified: true, timezone: timezone } do |subscription|
         mail = Mail::Message.new(from: "The Daily Hi <dailyhi@labnotes.org>", to: subscription.email, subject: subject)
         mail.html_part = Mail::Part.new(content_type: "text/html", body: email(subscription, time, photo, fact))

@@ -1,6 +1,6 @@
 <table cellspacing="4" cellpadding="0" border="0">
   <tr>
-    <td style="width:6em;vertical-align:top">
+    <td style="width:6em" vertical-align="top">
       <table cellspacing="0" cellpadding="0" border="0" style="width:4em;font-family:sans-serif;font-weight:bold;border:1px solid #aaa;font-size:10pt">
         <tr>
           <td style="color:#fff;background:#c00;padding:0.1em;text-align:center;border-bottom:2px solid #ccc"><%= time.strftime("%b") %></td>
@@ -10,7 +10,7 @@
         </tr>
       </table>
     </td>
-    <td style="vertical-align:top">
+    <td vertical-align="top">
       <h1>A lovely <%= time.strftime("%A") %> to you!</h1>
       <p><b>Important</b>: Not happy with your timezone? <a href="http://<%= HOSTNAME %>/timezone/<%= subscription.code %>">Go here to change it</a>.</p>
     </td>
@@ -26,9 +26,9 @@
   <% if fact %>
     <tr>
       <td colspan="2" style="padding:12px 0">
-        Did you know that &hellip;<br>
-        <blockquote style="font-style:italic"><a href="<%= CGI.escapeHTML fact.last %>"><%= CGI.escapeHTML fact.first %></a></blockquote>
-        Well, now you do!
+        <h3>Did you know that &hellip;</h3>
+        <p style="font-style:italic"><a href="<%= CGI.escapeHTML fact.last %>"><%= CGI.escapeHTML fact.first %></a></p>
+        <p style="text-align:right">Well, now you do!</p>
       </td>
     </tr>
   <% end %>
