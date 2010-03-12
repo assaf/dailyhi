@@ -6,6 +6,7 @@ require "flickr_fu"
 require "tzinfo"
 require "open-uri"
 require "rss"
+require "erb"
 
 Mail.defaults do
   delivery_method :sendmail
@@ -71,7 +72,9 @@ Daily bliss, after you click this link:
     mail.deliver
   end
 
-  def now
+  # Returns this subscription's "now" for immediate delivery.  For example:
+  #   Subscription.deliver Subscription.find(1).my_now 
+  def my_now
     utc = Time.now.utc
     now = Time.utc(utc.year, utc.month, utc.day, 6 - timezone)
   end
@@ -83,8 +86,8 @@ Daily bliss, after you click this link:
       tz = TZInfo::Timezone.all_data_zones.find { |tz| tz.current_period.utc_offset.to_i == timezone * 60 * 60 }
       return unless tz
       time = tz.utc_to_local(utc)
-      photo = find_photo
-      fact = fun_fact
+      photo = find_photo(time)
+      fact = fun_fact(time)
 
       subject = "Good morning, today is #{time.strftime("%A")}!"
       find_each conditions: { verified: true, timezone: timezone } do |subscription|
@@ -94,7 +97,7 @@ Daily bliss, after you click this link:
       end
     end
 
-    def find_photo
+    def find_photo(time)
       flickr = Flickr.new("#{File.dirname(__FILE__)}/config/flickr.yml")
       photos = flickr.photos.search(privacy_filter: 1, safe: 1, content_type: 1, license: "4,5,6",
                                     min_upload_date: (Date.today - 1).to_time.to_i, sort: "interestingness-desc")
@@ -103,13 +106,23 @@ Daily bliss, after you click this link:
         large && (800..1400).include?(large.width.to_i) && (600..1400).include?(large.height.to_i) }
     end
 
-    def fun_fact
+    def fun_fact(time)
+      if time.wday == 0
+        # Chunk Norris fact
+        week = time.strftime("%W").to_i || rand(52)
+        File.read("chuck.txt").split("\n")[week]
+      else
+        facts = File.read("facts.txt").split("\n")
+        facts[rand(facts.length)]
+      end
+    rescue
+=begin
       open("http://www.factropolis.com/rss.xml") do |response|
         result = RSS::Parser.parse(response, false)
         item = result.items.first
         return [item.title, item.link] if item
       end
-    rescue
+=end
     end
 
     def email(subscription, time, photo, fact)
