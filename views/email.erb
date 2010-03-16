@@ -12,7 +12,6 @@
     </td>
     <td vertical-align="top">
       <h1>A lovely <%= time.strftime("%A") %> to you!</h1>
-      <p><b>Important</b>: Not happy with your timezone? <a href="http://<%= HOSTNAME %>/timezone/<%= subscription.code %>">Go here to change it</a>.</p>
     </td>
   </tr>
   <% if photo %>
@@ -35,6 +34,7 @@
   <tr>
     <td colspan="2" style="padding:24px 0">
       <hr>
+      <p>Not happy with your timezone? <a href="http://<%= HOSTNAME %>/timezone/<%= subscription.code %>">Go here to change it</a>.</p>
       <p><b><a href="http://<%= HOSTNAME %>">The Daily Hi</a></b> loves you.</p>
       <p>If you don't feel the same way, you can always <a href="http://<%= HOSTNAME %>/unsubscribe/<%= subscription.code %>">unsubscribe</a>. Sniff.</p>
     </td>
