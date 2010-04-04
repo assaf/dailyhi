@@ -17,7 +17,7 @@
   <% if photo %>
     <tr>
       <td colspan="2" style="padding:24px 0">
-        <div><a href="<%= medium.url %>"><img src="<%= medium.source %>" width="480px"></a></div>
+        <div><img src="<%= medium.source %>" width="480px"></div>
         <p>Photo by <a href="<%= photo.photopage_url %>"><%= CGI.escapeHTML photo.owner_name %></a></p>
       </td>
     </tr>
