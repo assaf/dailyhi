@@ -60,16 +60,21 @@ class Subscription < ActiveRecord::Base
   end
 
   after_create do |record|
-    mail = Mail::Message.new(from: "The Daily Hi <hi@dailyhi.com>", to: record.email, subject: "Please verify your email address")
-    url = "http://#{HOSTNAME}/verify/#{record.code}"
-    mail.text_part = Mail::Part.new(body: <<-BODY)
+    Mail.deliver do
+      from "The Daily Hi <hi@dailyhi.com>"
+      to record.email
+      subject "Please verify your email address"
+      url = "http://#{HOSTNAME}/verify/#{record.code}"
+      text_part do
+        body <<-BODY
 Before you can receive emails, we need to verify your email address.
 
 Daily bliss, after you click this link:
   #{url}
 
-    BODY
-    mail.deliver
+        BODY
+      end
+    end
   end
 
   # Returns this subscription's "now" for immediate delivery.  For example:
@@ -91,9 +96,15 @@ Daily bliss, after you click this link:
 
       subject = "Good morning, today is #{time.strftime("%A")}!"
       find_each conditions: { verified: true, timezone: timezone } do |subscription|
-        mail = Mail::Message.new(from: "The Daily Hi <hi@dailyhi.com>", to: subscription.email, subject: subject)
-        mail.html_part = Mail::Part.new(content_type: "text/html", body: email(subscription, time, photo, fact))
-        mail.deliver
+        Mail.deliver do
+          from "The Daily Hi <hi@dailyhi.com>"
+          to subscription.email
+          subject subject
+          html_part do
+            content_type "text/html"
+            body email(subscription, time, photo, fact)
+          end
+        end
       end
     end
 
