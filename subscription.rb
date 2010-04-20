@@ -96,13 +96,14 @@ Daily bliss, after you click this link:
 
       subject = "Good morning, today is #{time.strftime("%A")}!"
       find_each conditions: { verified: true, timezone: timezone } do |subscription|
+        html = email(subscription, time, photo, fact)
         Mail.deliver do
           from "The Daily Hi <hi@dailyhi.com>"
           to subscription.email
           subject subject
           html_part do
             content_type "text/html"
-            body email(subscription, time, photo, fact)
+            body html
           end
         end
       end
