@@ -1,46 +1,8 @@
-<div class="what">
-  <p>I work from home and I love what I do. When you're not dreading Monday nor
-  waiting for Friday to end, days start blurring into each other.</p>
-  <p><q>Is today Tuesday?</q></p>
-  <p><q>No, wait, wasn't Tuesday just yesterday?</q></p>
-  <p><q>Tomorrow, you say?</q></p>
-  <p>So I created this little service to "Hi" me every morning with the day's name,
-  and a random picture of the day.</p>
-</div>
-<ol class="days">
-  <li>Sunday</li>
-  <li>Monday</li>
-  <li>Tuesday</li>
-  <li>Wednesday</li>
-  <li>Thursday</li>
-  <li>Friday</li>
-  <li>Saturday</li>
-</ol>
-<script>//<![CDATA[
-$(function() {
-  $(".days").show();
-  var elements = $(".days li"), width = 0, left = 0;
-  for (var i = elements.length; i; width = width + $(elements[--i]).width()) ;
-  var spacing = (560 - width) / 6;
-  elements.each(function(i,e) {
-    $(e).css({ opacity: 0.5, left: left });
-    left = left + $(e).width() + spacing;
-  });
-  var shuffle = function() {
-    var positions = [0,1,2,3,4,5,6];
-    for(var j, x, i = positions.length; i; j = parseInt(Math.random() * i), x = positions[--i], positions[i] = positions[j], positions[j] = x) ;
-    var elements = $(".days li");
-    var left = 0;
-    $.each(positions, function(i, e) {
-      var item = $(elements[e]);
-      item.animate({ left: left }, 3000);
-      left = left + item.width() + spacing;
-    });
-  }
-  shuffle();
-  window.setInterval(shuffle, 7000);
-})
-//]]></script>
+<div><img src="<%= @hi.photo_url %>" width="480px"></div>
+<p>Photo by <a href="<%= @hi.flickr_url %>"><%= CGI.escapeHTML @hi.flickr_name %></a></p>
+<h3>Did you know that &hellip;</h3>
+<p style="font-style:italic"><%= CGI.escapeHTML @hi.fact %></p>
+<p style="text-align:right">Well, now you do!</p>
 <form action="/subscribe" method="post" class="subscribe">
   <input name="email" type="email" placeholder="Your email">
   <input type="submit" value="Subscribe me" class="button">
@@ -48,6 +10,10 @@ $(function() {
   <p class="hint">One email, daily, with a random picture from the Flickr pool.</p>
 </form>
 <script>//<![CDATA[
-  var offset = new Date().getTimezoneOffset() / 60;
-  $("select[name=timezone]").val(-offset);
+  var now = new Date(),
+      date1 = new Date(now.getFullYear(), 0, 1, 0, 0, 0, 0),
+      gmt = date1.toGMTString(),
+      date2 = new Date(gmt.substring(0, gmt.lastIndexOf(" ") - 1)),
+      hoursDiffStdTime = (date1 - date2) / (1000 * 60 * 60);
+  $("select[name=timezone]").val(hoursDiffStdTime);
 //]]></script>

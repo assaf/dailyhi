@@ -31,6 +31,7 @@ ZONES = [[-11, "Midway Island", "Samoa" ],
 set :public, "#{File.dirname(__FILE__)}/public"
 
 get '/' do
+  @hi = Hi.fetch(Time.now)
   erb :index
 end
 
