@@ -14,23 +14,19 @@
       <h1>A lovely <%= time.strftime("%A") %> to you!</h1>
     </td>
   </tr>
-  <% if photo %>
-    <tr>
-      <td colspan="2" style="padding:24px 0">
-        <div><img src="<%= medium.source %>" width="480px"></div>
-        <p>Photo by <a href="<%= photo.photopage_url %>"><%= CGI.escapeHTML photo.owner_name %></a></p>
-      </td>
+  <tr>
+    <td colspan="2" style="padding:24px 0">
+      <div><img src="<%= hi.photo_url %>" width="480px"></div>
+      <p>Photo by <a href="<%= hi.flickr_url %>"><%= CGI.escapeHTML hi.flickr_name %></a></p>
+    </td>
     </tr>
-  <% end %>
-  <% if fact %>
-    <tr>
-      <td colspan="2" style="padding:12px 0">
-        <h3>Did you know that &hellip;</h3>
-        <p style="font-style:italic"><%= CGI.escapeHTML fact %></p>
-        <p style="text-align:right">Well, now you do!</p>
-      </td>
-    </tr>
-  <% end %>
+  <tr>
+    <td colspan="2" style="padding:12px 0">
+      <h3>Did you know that &hellip;</h3>
+      <p style="font-style:italic"><%= CGI.escapeHTML hi.fact %></p>
+      <p style="text-align:right">Well, now you do!</p>
+    </td>
+  </tr>
   <tr>
     <td colspan="2" style="padding:24px 0">
       <hr>

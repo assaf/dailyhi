@@ -17,5 +17,5 @@ before_fork do |server, worker|
 end
 
 after_fork do |server, worker|
-  worker.user "nginx", "nginx" unless RAILS_ENV == "development" # never run as root
+  worker.user "nginx", "nginx" unless ENV["RACK_ENV"] == "development" # never run as root
 end
