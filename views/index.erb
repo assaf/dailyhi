@@ -1,8 +1,10 @@
-<div><img src="<%= @hi.photo_url %>" width="480px"></div>
-<p>Photo by <a href="<%= @hi.flickr_url %>"><%= CGI.escapeHTML @hi.flickr_name %></a></p>
-<h3>Did you know that &hellip;</h3>
-<p style="font-style:italic"><%= CGI.escapeHTML @hi.fact %></p>
-<p style="text-align:right">Well, now you do!</p>
+<div class="today">
+  <img src="<%= @hi.photo_url %>">
+  <p>Photo by <a href="<%= @hi.flickr_url %>"><%= CGI.escapeHTML @hi.flickr_name %></a></p>
+  <h3>Did you know that &hellip;</h3>
+  <p class="fact"><%= CGI.escapeHTML @hi.fact %></p>
+  <p>Well, now you do!</p>
+</div>
 <form action="/subscribe" method="post" class="subscribe">
   <input name="email" type="email" placeholder="Your email">
   <input type="submit" value="Subscribe me" class="button">
