@@ -156,8 +156,7 @@ Daily bliss, after you click this link:
       hi = Hi.fetch(time)
 
       subject = "Good morning, today is #{time.strftime("%A")}!"
-      #find_each conditions: { verified: true, timezone: timezone } do |subscription|
-      find_each do |subscription|
+      find_each conditions: { verified: true, timezone: timezone } do |subscription|
         html = email(subscription, time, hi)
         Mail.deliver do
           from "The Daily Hi <hi@dailyhi.com>"
