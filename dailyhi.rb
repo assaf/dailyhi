@@ -1,4 +1,4 @@
-require "sinatra/base"
+require "sinatra"
 require "subscription"
 require "time"
 
@@ -28,59 +28,57 @@ ZONES = [[-11, "Midway Island", "Samoa" ],
        [ 12, "Fiji", "Marshall Is." ]]
 
 
-class DailyHi < Sinatra::Default
-  set :public, "#{File.dirname(__FILE__)}/public"
+set :public, "#{File.dirname(__FILE__)}/public"
 
-  get '/' do
-    erb :index
-  end
+get '/' do
+  erb :index
+end
 
-  post "/subscribe" do
-    begin
-      Subscription.create! email: params[:email], timezone: params[:timezone]
-      redirect "/subscribed"
-    rescue ActiveRecord::RecordInvalid=>ex
-      erb :error, {}, error: ex.record.errors.full_messages.first
-    rescue =>ex
-      $stderr.puts ex
-      $stderr.puts ex.backtrace
-      erb :error, {}, error: ex.message
-    end
+post "/subscribe" do
+  begin
+    Subscription.create! email: params[:email], timezone: params[:timezone]
+    redirect "/subscribed"
+  rescue ActiveRecord::RecordInvalid=>ex
+    erb :error, {}, error: ex.record.errors.full_messages.first
+  rescue =>ex
+    $stderr.puts ex
+    $stderr.puts ex.backtrace
+    erb :error, {}, error: ex.message
   end
+end
 
-  get "/subscribed" do
-    erb :subscribed
-  end
+get "/subscribed" do
+  erb :subscribed
+end
 
-  get "/verify/:code" do |code|
-    Subscription.update_all({ verified: true }, { code: code })
-    erb :verified
-  end
+get "/verify/:code" do |code|
+  Subscription.update_all({ verified: true }, { code: code })
+  erb :verified
+end
 
-  get "/unsubscribe/:code" do |code|
-    Subscription.delete_all code: code
-    erb :deleted
-  end
+get "/unsubscribe/:code" do |code|
+  Subscription.delete_all code: code
+  erb :deleted
+end
 
-  get "/timezone/:code" do |code|
-    if subscription = Subscription.find_by_code(code)
-      @code = subscription.code
-      erb :timezone
-    else
-      not_found
-    end
+get "/timezone/:code" do |code|
+  if subscription = Subscription.find_by_code(code)
+    @code = subscription.code
+    erb :timezone
+  else
+    not_found
   end
+end
 
-  post "/timezone/:code" do |code|
-    Subscription.update_all({ timezone: params[:timezone] }, { code: code })
-    redirect "/timezoned"
-  end
+post "/timezone/:code" do |code|
+  Subscription.update_all({ timezone: params[:timezone] }, { code: code })
+  redirect "/timezoned"
+end
 
-  get "/timezoned" do
-    erb :timezoned
-  end
+get "/timezoned" do
+  erb :timezoned
+end
 
-  not_found do
-    "Dude, you've been misdirected"
-  end
+not_found do
+  "Dude, you've been misdirected"
 end
