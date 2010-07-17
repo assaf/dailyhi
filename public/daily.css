@@ -1,8 +1,10 @@
 body {
   width: 560px;
   margin: 0 auto;
-  font: 14pt "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 14pt "Helvetica Neue", "Helvetica", "Verdana", sans-serif;
   color: #222;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 form input[type=email] { font: 14pt "Andale Mono", "Courier New", Courier, mono; width: 20em; padding: 4px }
 .button {
@@ -40,14 +42,15 @@ form input[type=email] { font: 14pt "Andale Mono", "Courier New", Courier, mono;
 .footer { margin: 4em 0; padding-top: .3em; color: #888; font-size: 10pt; border-top: 2px solid #CEE4F4 }
 q { font-style: italic }
 
-.title { border-bottom: 5px solid #CEE4F4; font-size: 32pt; font-weight: bold }
+.title { border-bottom: 5px solid #CEE4F4; font-size: 28pt; font-weight: bold; margin: 18px 0 }
 .title a { color: #3F7089; text-decoration: none } 
 .what { margin: 2em 0 }
 .rss-title { display: none }
 .rss-item { display: block }
 .special { color: #fff; font-style: italic; text-shadow: 0px 0px 4px #666 }
 #today { margin: 32px 0; display: none; width: 560px }
-#today img { display: block; width: 560px }
+#today h1 { font-size: 26pt }
+#today img { display: block; width: 560px; margin-top: 32px }
 #today .fact { font-style:italic } 
 #today .fact+p { text-align: right }
 .date { width: 4em; font-weight: bold; border: 1px solid #aaa; font-size:10pt; float: left; margin-right: 2em }
