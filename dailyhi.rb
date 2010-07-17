@@ -31,8 +31,12 @@ ZONES = [[-11, "Midway Island", "Samoa" ],
 set :public, "#{File.dirname(__FILE__)}/public"
 
 get '/' do
-  @hi = Hi.fetch(Time.now)
   erb :index
+end
+
+get '/today/:year/:month/:day' do
+  @hi = Hi.fetch(Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i))
+  erb :today, layout: false
 end
 
 post "/subscribe" do

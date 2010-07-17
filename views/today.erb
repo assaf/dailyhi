@@ -1,0 +1,12 @@
+<div class="today">
+  <div class="date">
+    <div class="month"><%= @hi.date.strftime("%b") %></div>
+    <div class="day"><%= @hi.date.day %></div>
+  </div>
+  <h1>A lovely <%= @hi.date.strftime("%A") %> to you!</h1>
+  <img src="<%= @hi.photo_url %>">
+  <p>Photo by <a href="<%= @hi.flickr_url %>"><%= CGI.escapeHTML @hi.flickr_name %></a></p>
+  <h3>Did you know that &hellip;</h3>
+  <p class="fact"><%= CGI.escapeHTML @hi.fact %></p>
+  <p>Well, now you do!</p>
+</div>

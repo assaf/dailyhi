@@ -35,20 +35,19 @@ end
 class Hi < ActiveRecord::Base
   class << self
 
-    def fetch(time)
-      date = time.to_date
+    def fetch(date)
       unless hi = find_by_date(date)
-        fact = fun_fact(time)
-        photo = find_photo(time)
+        fact = fun_fact(date)
+        photo = find_photo(date)
         hi = create(photo.merge(:date=>date, :fact=>fact))
       end
       hi
     end
 
-    def fun_fact(time)
-      if time.wday == 0
+    def fun_fact(date)
+      if date.wday == 0
         # Chunk Norris fact
-        week = time.strftime("%W").to_i || rand(52)
+        week = date.strftime("%W").to_i || rand(52)
         File.read("chuck.txt").split("\n")[week]
       else
         facts = File.read("facts.txt").split("\n")
@@ -58,10 +57,10 @@ class Hi < ActiveRecord::Base
       "Alcohol beverages have all 13 minerals necessary for human life"
     end
     
-    def find_photo(time)
+    def find_photo(date)
       flickr = Flickr.new("#{File.dirname(__FILE__)}/config/flickr.yml")
       photos = flickr.photos.search(privacy_filter: 1, safe: 1, content_type: 1, license: "4,5,6",
-                                    min_upload_date: (Date.today - 1).to_time.to_i, sort: "interestingness-desc")
+                                    min_upload_date: (date - 1).to_time.to_i, sort: "interestingness-desc")
       photo = photos.find { |photo|
         large = photo.photo_size(:large)
         large && (800..1400).include?(large.width.to_i) && (600..1400).include?(large.height.to_i) }
@@ -153,7 +152,7 @@ Daily bliss, after you click this link:
       tz = TZInfo::Timezone.all_data_zones.find { |tz| tz.current_period.utc_offset.to_i == timezone * 60 * 60 }
       return unless tz
       time = tz.utc_to_local(utc)
-      hi = Hi.fetch(time)
+      hi = Hi.fetch(time.to_date)
 
       subject = "Good morning, today is #{time.strftime("%A")}!"
       find_each conditions: { verified: true, timezone: timezone } do |subscription|
