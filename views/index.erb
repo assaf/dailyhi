@@ -12,5 +12,7 @@
       date2 = new Date(gmt.substring(0, gmt.lastIndexOf(" ") - 1)),
       hoursDiffStdTime = (date1 - date2) / (1000 * 60 * 60);
       $("select[name=timezone]").val(hoursDiffStdTime);
-  $("#today").load("/today/" + now.getFullYear() + "/" + now.getMonth() + "/" + now.getDate());
+  $("#today").load("/today/" + now.getFullYear() + "/" + (now.getMonth() + 1) + "/" + now.getDate(),
+    function() { $(this).find("img.photo").bind("load", function() { $("#today").fadeIn(1000) }) }
+  )
 //]]></script>
