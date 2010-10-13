@@ -1,61 +1,37 @@
---- 
-hash: d4a9160bbffdb7e7c02163b859d2bcdc105defa2
-sources: 
-- Rubygems: 
-    uri: http://gemcutter.org
-specs: 
-- activesupport: 
-    version: 2.3.8
-- activerecord: 
-    version: 2.3.8
-- mime-types: 
-    version: "1.16"
-- xml-magic: 
-    version: 0.1.1
-- flickr_fu: 
-    version: 0.3.0
-- polyglot: 
-    version: 0.3.1
-- treetop: 
-    version: 1.4.8
-- mail: 
-    version: 2.2.5
-- rack: 
-    version: 1.2.1
-- sinatra: 
-    version: "1.0"
-- sqlite3-ruby: 
-    version: 1.2.5
-- tzinfo: 
-    version: 0.3.22
-- unicorn: 
-    version: 1.1.0
-dependencies: 
-  activerecord: 
-    version: = 2.3.8
-    group: 
-    - :default
-  flickr_fu: 
-    version: = 0.3.0
-    group: 
-    - :default
-  mail: 
-    version: = 2.2.5
-    group: 
-    - :default
-  sinatra: 
-    version: = 1.0
-    group: 
-    - :default
-  sqlite3-ruby: 
-    version: = 1.2.5
-    group: 
-    - :default
-  unicorn: 
-    version: = 1.1.0
-    group: 
-    - :default
-  tzinfo: 
-    version: = 0.3.22
-    group: 
-    - :default
+GEM
+  remote: http://rubygems.org/
+  specs:
+    activerecord (2.3.8)
+      activesupport (= 2.3.8)
+    activesupport (2.3.8)
+    flickr_fu (0.3.0)
+      mime-types (> 0.0.0)
+      xml-magic (> 0.0.0)
+    mail (2.2.5)
+      activesupport (>= 2.3.6)
+      mime-types
+      treetop (>= 1.4.5)
+    mime-types (1.16)
+    polyglot (0.3.1)
+    rack (1.2.1)
+    sinatra (1.0)
+      rack (>= 1.0)
+    sqlite3-ruby (1.2.5)
+    treetop (1.4.8)
+      polyglot (>= 0.3.1)
+    tzinfo (0.3.22)
+    unicorn (1.1.0)
+      rack
+    xml-magic (0.1.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activerecord (= 2.3.8)
+  flickr_fu (= 0.3.0)
+  mail (= 2.2.5)
+  sinatra (= 1.0)
+  sqlite3-ruby (= 1.2.5)
+  tzinfo (= 0.3.22)
+  unicorn (= 1.1.0)
