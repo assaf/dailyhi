@@ -177,4 +177,18 @@ Daily bliss, after you click this link:
 end
 
 
-Subscription.deliver if $0 == __FILE__
+if $0 == __FILE__
+  begin
+    Subscription.deliver
+  rescue
+    Mail.deliver do
+      from "The Daily Hi <hi@dailyhi.com>"
+      to "assaf@labnotes.org"
+      subject $!.message
+      text_part do
+        content_type "text/plain"
+        body $!.backtrace.join("\n")
+      end
+    end
+  end
+end
