@@ -163,7 +163,7 @@ Daily bliss, after you click this link:
           subject subject
           html_part do
             content_type "text/html"
-            body html
+            body html.force_encoding(Encoding::UTF_8)
           end
         end
       end
