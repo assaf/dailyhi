@@ -32,6 +32,7 @@ DEPENDENCIES
   activerecord (= 2.3.8)
   flickr_fu (= 0.3.0)
   mail (= 2.2.5)
+  mime-types (= 1.16)
   mysql (= 2.8.1)
   sinatra (= 1.0)
   sqlite3-ruby (= 1.2.5)

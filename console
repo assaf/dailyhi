@@ -1,0 +1,2 @@
+#!/bin/sh 
+RACK_ENV=production bundle exec irb -r subscription.rb $*
