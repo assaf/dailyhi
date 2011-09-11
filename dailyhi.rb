@@ -1,5 +1,5 @@
 require "sinatra"
-require "subscription"
+require File.expand_path("../subscription", __FILE__)
 require "time"
 
 ZONES = [[-11, "Midway Island", "Samoa" ],
