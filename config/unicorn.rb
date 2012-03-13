@@ -3,6 +3,7 @@ worker_processes 2
 preload_app false
 timeout 30
 pid "unicorn.pid"
+user "www", "www"
 
 before_fork do |server, worker|
   old_pid = "#{server.config[:pid]}.oldbin"
@@ -17,5 +18,4 @@ before_fork do |server, worker|
 end
 
 after_fork do |server, worker|
-  worker.user "nginx", "nginx" unless ENV["RACK_ENV"] == "development" # never run as root
 end
