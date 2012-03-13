@@ -13,7 +13,7 @@ Mail.defaults do
 end
 
 env = ENV["RACK_ENV"] || "development"
-HOSTNAME = env == "development" ? "localhost:3000" : "dailyhi.com"
+HOSTNAME = env == "development" ? "localhost:3000" : "dailyhi.labnotes.org"
 
 config = YAML.load_file("#{File.dirname(__FILE__)}/config/database.yml")
 ActiveRecord::Base.establish_connection config[env]
@@ -122,7 +122,7 @@ class Subscription < ActiveRecord::Base
 
   after_create do |record|
     Mail.deliver do
-      from "The Daily Hi <hi@dailyhi.com>"
+      from "The Daily Hi <hi@dailyhi.labnotes.org>"
       to record.email
       subject "Please verify your email address"
       url = "http://#{HOSTNAME}/verify/#{record.code}"
@@ -158,7 +158,7 @@ Daily bliss, after you click this link:
       find_each conditions: { verified: true, timezone: timezone } do |subscription|
         html = email(subscription, time, hi)
         Mail.deliver do
-          from "The Daily Hi <hi@dailyhi.com>"
+          from "The Daily Hi <hi@dailyhi.labnotes.org>"
           to subscription.email
           subject subject
           html_part do
@@ -182,7 +182,7 @@ if $0 == __FILE__
     Subscription.deliver
   rescue
     Mail.deliver do
-      from "The Daily Hi <hi@dailyhi.com>"
+      from "The Daily Hi <hi@dailyhi.labnotes.org>"
       to "assaf@labnotes.org"
       subject $!.message
       text_part do
