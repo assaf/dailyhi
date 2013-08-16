@@ -56,7 +56,7 @@ class Hi < ActiveRecord::Base
     rescue
       "Alcohol beverages have all 13 minerals necessary for human life"
     end
-    
+
     def find_photo(date)
       flickr = Flickr.new("#{File.dirname(__FILE__)}/config/flickr.yml")
       photos = flickr.photos.search(privacy_filter: 1, safe: 1, content_type: 1, license: "4,5,6",
@@ -107,7 +107,7 @@ class Subscription < ActiveRecord::Base
   end
   validate do |record|
     addr = Mail::Address.new(record.email) rescue nil
-    if addr && addr.domain.present?
+    if addr && addr.domain != ""
       mx = Resolv::DNS.open { |dns| dns.getresources(addr.domain, Resolv::DNS::Resource::IN::MX) }
       record.errors.add :email, :invalid if mx.empty?
     else
@@ -139,7 +139,7 @@ Daily bliss, after you click this link:
   end
 
   # Returns this subscription's "now" for immediate delivery.  For example:
-  #   Subscription.deliver Subscription.find(1).my_now 
+  #   Subscription.deliver Subscription.find(1).my_now
   def my_now
     utc = Time.now.utc
     now = Time.utc(utc.year, utc.month, utc.day, 6 - timezone)
